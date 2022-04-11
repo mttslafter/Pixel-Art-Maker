@@ -1,37 +1,33 @@
-// Select color input
-// Select size input
-var height, width, color;
+//global variables
+var colorPicker = $('#colorPicker');
+var pixelCanvas = $('#pixelCanvas');
+var Height = $('#inputHeight');
+var Width = $('#inputWidth');
 
-// When size is submitted by the user, call makeGrid()
-$('#sizePicker').submit(function (event) {
+//set values for grid (x, y)
+$('#sizePicker').submit( event => {
     event.preventDefault();
-    height = $('#inputHeight').val();
-    width = $('#inputWidth').val();
-    makeGrid(height, width);
-    // console.log('Height:' + height + ' and width: ' + width);
+    let x = Height.val();
+    let y = Width.val();
+    pixelCanvas.html('');
+    makeGrid(x, y);
+    colorSelector();
+});
 
-})
-
-
+//makes grid
 function makeGrid(x, y) {
-    $('tr').remove();
+    for (let i = 0; i < x; i++) {
+        pixelCanvas.append('<tr></tr>');
+    };
+    for (let i = 0; i < y; i++) {
+        $('tr').append('<td></td>');
+    };
+};
 
-// Your code goes here!
-    for (var i = 1; i <=x; i++) {
-        $('#pixelCanvas').append('<tr id=table' + i + '></tr>');
-        for (var j = 1; j <= y; j++) {
-            $('#table' + i).append('<td></td>');
-        }
-    }
-
-    // add color to cell
-    $('td').click(function addColor() {
-        color = $('#colorPicker').val();
-
-        if ($(this).attr('style')) {
-            $(this).removeAttr('style')
-        } else {
-            $(this).attr('style', 'background-color:' + color);
-        }
-    })
-}
+//selects color from #colorPicker
+function colorSelector() {
+    $('td').click( event => {
+        let color = colorPicker.val();
+        $(event.currentTarget).css("background-color", color)
+    });
+};
